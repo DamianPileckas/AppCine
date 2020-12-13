@@ -1,0 +1,116 @@
+﻿@model appCine.Models.pelicula
+@Styles.Render("~/Content/pelicula.css")
+@{
+    ViewBag.Title = "Create";
+    <script type="text/javascript">
+        function OnChangeEvent(element) {
+            var reader = new FileReader();
+            reader.readAsDataURL(element.files[0]);
+            reader.onload = function () {
+                console.log(reader.result);
+                $("#imagenBase64").val(reader.result);
+                $("#imagenModel").val(reader.result);
+                console.log("BASE 64 " + reader.result);
+            };
+            reader.onerror = function (error) {
+                console.log('Error: ', error);
+            };
+        }
+    </script>
+}
+
+<div class="form-pelicula">
+    @using (Html.BeginForm("Create", "Peliculas", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <div class="logo">
+            <h4 class="letra-logo">Crear Película</h4>
+        </div>   
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+        <div class="form-group">
+            @Html.EditorFor(model => model.nombre, new { htmlAttributes = new { @class = "form-control input-form", @placeholder = "Nombre" } })
+            @Html.ValidationMessageFor(model => model.nombre, "", new { @class = "text-danger" })
+        </div>
+
+        <div class="form-group ">
+            <select name="genero" class="select-form">
+                <option value="">Genero</option>
+                <option value="Accion">Acción</option>
+                <option value="Comedia">Comedia</option>
+                <option value="Ciencia ficción">Ciencia ficción</option>
+                <option value="Suspenso">Suspenso</option>
+                <option value="Terror">Terror</option>
+                <option value="Policial">Policial</option>
+                <option value="Documental">Documental</option>
+                <option value="Romántico">Romántico</option>
+                <option value="Animación">Animación</option>
+            </select>
+            @Html.ValidationMessageFor(model => model.genero, "", new { @class = "text-danger" })
+        </div>
+
+
+
+        <div class="form-group">
+
+            @Html.EditorFor(model => model.duracion, new { htmlAttributes = new { @class = "form-control input-form", @placeholder = "Duración" } })
+            @Html.ValidationMessageFor(model => model.duracion, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+
+            @Html.EditorFor(model => model.director, new { htmlAttributes = new { @class = "form-control input-form", @placeholder = "Director" } })
+            @Html.ValidationMessageFor(model => model.director, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+
+            @*@Html.TextAreaFor(model => model.sinopsis, new { htmlAttributes = new { @class = "form-control"} })*@
+            @Html.TextAreaFor(model => model.sinopsis, htmlAttributes: new { @class = "form-control", @style = "width: 450px;", @placeholder = "Sinopsis" })
+            @Html.ValidationMessageFor(model => model.sinopsis, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+
+            @*@Html.EditorFor(model => model.lanzamiento, new { htmlAttributes = new { @class = "form-control",@placeholder } })*@
+            @Html.EditorFor(model => model.lanzamiento, new { htmlAttributes = new { @class = "form-control input-form" } })
+            @Html.ValidationMessageFor(model => model.lanzamiento, "", new { @class = "text-danger" })
+
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.imagen, htmlAttributes: new { @class = "control-label col-md-2" })*@
+
+            <input type="file" id="imagenBase64" name="avatar" accept=".someext,image/*" onchange="OnChangeEvent(this)">
+            @Html.HiddenFor(model => model.imagen, new { htmlAttributes = new { @class = "form-control", @id = "imagenModel" } });
+            @Html.ValidationMessageFor(model => model.imagen)
+
+        </div>
+
+        <div class="form-group">
+            @*@Html.LabelFor(model => model.categoria, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            @Html.EditorFor(model => model.categoria, new { htmlAttributes = new { @class = "form-control input-form", @placeholder = "Categoría" } })
+            @Html.ValidationMessageFor(model => model.categoria, "", new { @class = "text-danger" })
+
+        </div>
+        <div class="form-group">
+            <div class="div-btn-save">
+                <input type="submit" value="Crear" class="btn btn-success" style="width: 110px; height: 50px; border-radius: 100px;"/>
+            </div>
+        </div>
+    </div>
+    }
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+
+}
+

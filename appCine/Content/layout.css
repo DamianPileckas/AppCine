@@ -1,0 +1,10 @@
+﻿.login {
+    padding-left: 0;
+    list-style: none;
+    float: right;
+    margin: 0;
+}
+body {
+    background-image: url("../Content/purpleBackground.jpg");
+    background-repeat: repeat;
+}
